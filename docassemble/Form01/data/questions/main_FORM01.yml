@@ -1,0 +1,17 @@
+---
+include:
+  - initial_stuff.yml
+---
+objects: 
+ - courts.address: Address
+---
+mandatory: True
+code: |
+  courts.name
+  courts.address.address
+  judicial_division
+ 
+  
+---
+include:
+  - question_FORM01.yml

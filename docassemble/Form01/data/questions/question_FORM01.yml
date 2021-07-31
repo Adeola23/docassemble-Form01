@@ -1,0 +1,220 @@
+---
+modules:
+  - docassemble.base.legal
+  - docassemble.base.util
+  
+---
+metadata:
+  title: |
+    FORM 01 - General Form of Writ of Summons
+  short title: |
+    FORM 01 Akwa Ibom
+  description: |
+   General Form of Writ of Summons interview
+  authors:
+    - name: Adeola Abiola
+      organization: Authority wit.
+  revision_date: 2021-07-23
+
+
+---
+objects:
+  - courts: Court
+  - placation: DAList.using(object_type=Address, minimum_number=1)
+  - defcation: DAList.using(object_type=Address, minimum_number=1)
+  - plaintiff: DAList.using(object_type=Individual, minimum_number=1)
+  - defendant: DAList.using(object_type=Individual, minimum_number=1)
+  - solicitor: Individual
+  - other_person: Individual
+---
+mandatory: True
+
+question: |
+  What is the name of the court in which the form was issued?.
+fields:
+  - Court Name: courts.name
+---
+question: |
+  ${courts.name} location?
+fields:
+  - Street address: courts.address.address
+  - City: courts.address.city
+  - State: courts.address.state
+---
+question: |
+  Please provide the judicial division?
+fields:
+  - no label: judicial_division
+---
+question: |
+  The plaintiff(s) in this suit?
+fields: 
+  - Plaintiff first name: plaintiff[i].name.first
+  - Plaintiff last name: plaintiff[i].name.last
+---
+question: |
+  Address of the plaintiff(s)
+fields:
+  - Street address: placation[i].address
+  - City: placation[i].city
+  - State: placation[i].state
+---
+question: |
+  Are there any more plaintiff(s)?
+yesno: plaintiff.there_is_another
+---
+question: |
+  The defendant(s) in this suit?
+fields:
+  - Defendant first name: defendant[i].name.first
+  - Defendant last name: defendant[i].name.last
+---
+question: |
+  Are there any more defendant(s)?
+yesno: defendant.there_is_another
+---
+question: |
+  Where do you want to send this suit?
+fields:
+  - Street address: defcation[i].address
+  - City: defcation[i].city
+  - State: defcation[i].state
+---
+question: |
+  Date suit is filed?
+fields:
+  - Day: day_commanded
+    datatype: integer
+  - Month: month_commanded
+    choices:
+      - January
+      - February 
+      - March
+      - April
+      - May
+      - June
+      - July
+      - August
+      - September
+      - October
+      - November
+      - December
+  - Year: year_commanded
+    datatype: integer
+---
+question: |
+  Plaintiff(s) claim against the defendant(s)?
+fields:
+  - no label: plaintiff_claim
+    datatype: area
+---
+question: |
+  This writ was issued by?
+fields:
+  - Solicitor Name: solicitor.name.text
+---
+question: |
+  ${solicitor.name.text} location?
+fields:
+  - Street address: solicitor.address.address
+  - City: solicitor.address.city
+  - State: solicitor.address.state
+---
+question: |
+  The writ was served on the defendant(s)
+fields:
+  - Mode of service: mode_of_service
+    datatype: area
+---
+question: |
+    Date it the writ is served
+fields:
+  - Day: day_writ
+    datatype: integer
+  - Month: month_writ
+    choices:
+      - January
+      - February 
+      - March
+      - April
+      - May
+      - June
+      - July
+      - August
+      - September
+      - October
+      - November
+      - December
+  - Year: year_writ
+    datatype: integer
+---
+question: |
+  Date the writ was indorsed?
+fields:
+  - Day: day_indorsed
+    datatype: integer
+  - Month: month_indorsed
+    choices:
+      - January
+      - February 
+      - March
+      - April
+      - May
+      - June
+      - July
+      - August
+      - September
+      - October
+      - November
+      - December
+  - Year: year_indorsed
+    datatype: integer
+---
+question: |
+  Is this writ a debenture holders action?
+fields:
+  - no label: person_deceased
+    datatype: yesnoradio
+  - Full Name of deceased: other_person.name.text
+    show if:
+      variable:
+        person_deceased
+      is:
+        True
+---
+question: |
+  Date of stamping and authorized signing
+fields:
+  - Day: day_stamped
+    datatype: integer
+  - Month: month_stamped
+    choices:
+      - January
+      - February 
+      - March
+      - April
+      - May
+      - June
+      - July
+      - August
+      - September
+      - October
+      - November
+      - December
+  - Year: year_stamped
+    datatype: integer
+---
+mandatory: True
+
+question: |
+  Here is your document.
+subquestion: |
+  Does it meet your approval?
+yesno: user_approves
+attachment:
+  name: General Form of Writ of Summons
+  filename: letter
+  docx template file: form01_akwaibom2.docx
+  valid formats:
+    - pdf
+    - docx
